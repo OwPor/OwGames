@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OwGames - Fun, lightweight games for everyone!</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕹️</text></svg>">
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -111,6 +112,43 @@
                         <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">Memory Cards</h3>
                         <p class="text-gray-600 dark:text-gray-300 mb-4">Test your memory by matching pairs of cards. How fast can you clear the board?</p>
                         <a href="./games/memory/index.html" class="inline-block bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300">
+                            Play Now
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 2048 Game Card -->
+                <div class="game-card bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                    <div class="h-48 bg-primary-200 dark:bg-primary-900 flex items-center justify-center">
+                        <svg class="w-20 h-20 text-primary-800 dark:text-primary-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="2" ry="2"></rect>
+                            <line x1="2" y1="8" x2="22" y2="8"></line>
+                            <line x1="2" y1="16" x2="22" y2="16"></line>
+                            <line x1="8" y1="2" x2="8" y2="22"></line>
+                            <line x1="16" y1="2" x2="16" y2="22"></line>
+                        </svg>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">2048</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">Combine matching numbers to reach the elusive 2048 tile in this addictive puzzle game.</p>
+                        <a href="./games/2048/index.html" class="inline-block bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300">
+                            Play Now
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Rock Paper Scissors Game Card -->
+                <div class="game-card bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                    <div class="h-48 bg-primary-200 dark:bg-primary-900 flex items-center justify-center">
+                        <svg class="w-20 h-20 text-primary-800 dark:text-primary-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 2L2 6l4 4-4 4 4 4 4-4 4 4 4-4-4-4 4-4-4-4-4 4z"></path>
+                            <path d="M6 14h12"></path>
+                        </svg>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">Rock Paper Scissors</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">The classic game of chance. Can you beat the computer in this timeless hand game?</p>
+                        <a href="./games/rockpaperscissors/index.html" class="inline-block bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300">
                             Play Now
                         </a>
                     </div>

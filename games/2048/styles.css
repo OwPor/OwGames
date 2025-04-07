@@ -1,0 +1,169 @@
+/* 2048 Game Custom Styles */
+
+/* Game board container */
+.game-container {
+  width: 100%;
+  max-width: 500px;
+  padding: 10px;
+}
+
+/* Game grid */
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 10px;
+  aspect-ratio: 1/1;
+  width: 100%;
+  border-radius: 0.5rem;
+  background-color: #bbada0;
+  padding: 10px;
+  position: relative;
+}
+
+.dark .game-grid {
+  background-color: #6b7280;
+}
+
+/* Tile styling */
+.tile {
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 24px;
+  position: absolute;
+  width: calc(25% - 10px);
+  height: calc(25% - 10px);
+  transition: all 0.1s;
+  z-index: 10;
+}
+
+/* Tile colors based on value */
+.tile-2 {
+  background-color: #eee4da;
+  color: #776e65;
+}
+
+.tile-4 {
+  background-color: #ede0c8;
+  color: #776e65;
+}
+
+.tile-8 {
+  background-color: #f2b179;
+  color: white;
+}
+
+.tile-16 {
+  background-color: #f59563;
+  color: white;
+}
+
+.tile-32 {
+  background-color: #f67c5f;
+  color: white;
+}
+
+.tile-64 {
+  background-color: #f65e3b;
+  color: white;
+}
+
+.tile-128 {
+  background-color: #edcf72;
+  color: white;
+  font-size: 20px;
+}
+
+.tile-256 {
+  background-color: #edcc61;
+  color: white;
+  font-size: 20px;
+}
+
+.tile-512 {
+  background-color: #edc850;
+  color: white;
+  font-size: 20px;
+}
+
+.tile-1024 {
+  background-color: #edc53f;
+  color: white;
+  font-size: 16px;
+}
+
+.tile-2048 {
+  background-color: #edc22e;
+  color: white;
+  font-size: 16px;
+  box-shadow: 0 0 10px rgba(237, 194, 46, 0.8);
+}
+
+/* Tile animations */
+@keyframes appear {
+  0% { opacity: 0; transform: scale(0); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.tile-new {
+  animation: appear 200ms ease-in-out;
+}
+
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.tile-merged {
+  animation: pop 200ms ease-in-out;
+  z-index: 20;
+}
+
+/* Empty cell styling */
+.empty-cell {
+  background-color: rgba(238, 228, 218, 0.35);
+  border-radius: 3px;
+  aspect-ratio: 1/1;
+}
+
+.dark .empty-cell {
+  background-color: rgba(55, 65, 81, 0.7);
+}
+
+/* Responsive font sizes */
+@media (max-width: 640px) {
+  .tile {
+    font-size: 20px;
+  }
+  
+  .tile-128, .tile-256, .tile-512 {
+    font-size: 16px;
+  }
+  
+  .tile-1024, .tile-2048 {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 400px) {
+  .tile {
+    font-size: 16px;
+  }
+  
+  .tile-128, .tile-256, .tile-512 {
+    font-size: 14px;
+  }
+  
+  .tile-1024, .tile-2048 {
+    font-size: 12px;
+  }
+}
+
+/* Touch gestures area */
+#game-board {
+  touch-action: none;
+}
