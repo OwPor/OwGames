@@ -1,0 +1,122 @@
+/* Tic-Tac-Toe Custom Styles */
+
+/* Game board cell styling */
+.cell {
+  background-color: #f1f5f9;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  box-shadow: inset 0 0 0 2px #e2e8f0;
+}
+
+.dark .cell {
+  background-color: #334155;
+  box-shadow: inset 0 0 0 2px #475569;
+}
+
+/* Cell hover effect */
+.cell:hover {
+  transform: scale(1.02);
+  box-shadow: inset 0 0 0 2px #c4b5fd;
+}
+
+.dark .cell:hover {
+  box-shadow: inset 0 0 0 2px #7c3aed;
+}
+
+/* X and O styles */
+.cell.x::before,
+.cell.x::after {
+  content: '';
+  position: absolute;
+  width: 80%;
+  height: 10%;
+  background-color: #7c3aed;
+  border-radius: 999px;
+}
+
+.dark .cell.x::before,
+.dark .cell.x::after {
+  background-color: #a78bfa;
+}
+
+.cell.x::before {
+  transform: rotate(45deg);
+}
+
+.cell.x::after {
+  transform: rotate(-45deg);
+}
+
+.cell.o::before,
+.cell.o::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+}
+
+.cell.o::before {
+  width: 70%;
+  height: 70%;
+  border: 10px solid #7c3aed;
+}
+
+.dark .cell.o::before {
+  border-color: #a78bfa;
+}
+
+/* Animation for X and O markers */
+@keyframes appear {
+  0% { opacity: 0; transform: scale(0.5); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.cell.x::before,
+.cell.x::after,
+.cell.o::before {
+  animation: appear 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Winning line styles */
+.win-line {
+  position: absolute;
+  background-color: #10b981;
+  z-index: 1;
+  opacity: 0.7;
+}
+
+.dark .win-line {
+  background-color: #34d399;
+}
+
+/* Button press effects */
+button:active {
+  transform: scale(0.95);
+}
+
+/* Game Mode Select Styling */
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 0.5rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: 2.5rem;
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .cell {
+    font-size: 2rem;
+  }
+  
+  .cell.o::before {
+    border-width: 8px;
+  }
+}

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake - OwGames</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                            950: '#2e1065',
+                        },
+                    },
+                }
+            },
+        }
+    </script>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header with Navigation -->
+        <header class="flex flex-col sm:flex-row items-center justify-between mb-8">
+            <a href="/../../index.html" class="text-2xl font-bold text-primary-700 dark:text-primary-400 mb-4 sm:mb-0">
+                &larr; Back to OwGames
+            </a>
+            <!-- Theme Toggle -->
+            <div class="flex justify-end">
+                <button id="theme-toggle" class="p-2 rounded-full bg-primary-100 dark:bg-primary-900 text-primary-900 dark:text-primary-100">
+                    <svg id="sun-icon" class="w-6 h-6 hidden dark:block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    <svg id="moon-icon" class="w-6 h-6 block dark:hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Game Title -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-primary-700 dark:text-primary-400 mb-2">Snake</h1>
+            <p class="text-gray-600 dark:text-gray-300">Use arrow keys or swipe to navigate the snake. Eat the food and avoid hitting the walls or yourself!</p>
+        </div>
+
+        <!-- Game Info -->
+        <div class="flex flex-col sm:flex-row justify-between mb-4">
+            <div class="mb-4 sm:mb-0">
+                <p class="text-gray-700 dark:text-gray-300">Score: <span id="score" class="font-bold">0</span></p>
+                <p class="text-gray-700 dark:text-gray-300">High Score: <span id="highScore" class="font-bold">0</span></p>
+            </div>
+            <div class="flex space-x-2">
+                <button id="instructionsBtn" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+                    How to Play
+                </button>
+                <button id="resetBtn" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
+                    Reset Game
+                </button>
+            </div>
+        </div>
+
+        <!-- Instructions Modal (hidden by default) -->
+        <div id="instructionsModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-md w-full">
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">How to Play</h2>
+                <div class="mb-6">
+                    <h3 class="font-bold text-gray-700 dark:text-gray-300 mb-2">Desktop:</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">Use arrow keys to control the snake's direction.</p>
+                    
+                    <h3 class="font-bold text-gray-700 dark:text-gray-300 mb-2">Mobile:</h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">Swipe up, down, left, or right to change the snake's direction.</p>
+                    
+                    <h3 class="font-bold text-gray-700 dark:text-gray-300 mb-2">Goal:</h3>
+                    <p class="text-gray-600 dark:text-gray-400">Eat the food (red square) to grow your snake and increase your score. Avoid hitting the walls or your own body!</p>
+                </div>
+                <button id="closeInstructions" class="w-full px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+                    Got it!
+                </button>
+            </div>
+        </div>
+
+        <!-- Game Canvas Container -->
+        <div class="flex justify-center mb-8">
+            <div class="relative bg-white dark:bg-gray-800 rounded-xl p-4 shadow-lg">
+                <canvas id="gameCanvas" class="border-2 border-primary-300 dark:border-primary-800 rounded-lg" width="300" height="300"></canvas>
+            </div>
+        </div>
+
+        <!-- Mobile Controls (for touch devices) -->
+        <div id="mobileControls" class="md:hidden grid grid-cols-3 gap-2 max-w-xs mx-auto mb-8">
+            <div></div>
+            <button id="upBtn" class="p-4 bg-primary-500 text-white rounded-lg" aria-label="Move Up">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                </svg>
+            </button>
+            <div></div>
+            <button id="leftBtn" class="p-4 bg-primary-500 text-white rounded-lg" aria-label="Move Left">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <div></div>
+            <button id="rightBtn" class="p-4 bg-primary-500 text-white rounded-lg" aria-label="Move Right">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+            <div></div>
+            <button id="downBtn" class="p-4 bg-primary-500 text-white rounded-lg" aria-label="Move Down">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+            <div></div>
+        </div>
+
+        <!-- Game Over Modal (hidden by default) -->
+        <div id="gameOverModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-md w-full text-center">
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">Game Over!</h2>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">Your score: <span id="finalScore" class="font-bold">0</span></p>
+                <button id="playAgainBtn" class="w-full px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+                    Play Again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./snake.js"></script>
+</body>
+</html>

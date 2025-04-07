@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Cards - OwGames</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                            950: '#2e1065',
+                        },
+                    },
+                }
+            },
+        }
+    </script>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body class="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header with Navigation -->
+        <header class="flex flex-col sm:flex-row items-center justify-between mb-8">
+            <a href="/../../index.html" class="text-2xl font-bold text-primary-700 dark:text-primary-400 mb-4 sm:mb-0">
+                &larr; Back to OwGames
+            </a>
+            <!-- Theme Toggle -->
+            <div class="flex justify-end">
+                <button id="theme-toggle" class="p-2 rounded-full bg-primary-100 dark:bg-primary-900 text-primary-900 dark:text-primary-100">
+                    <svg id="sun-icon" class="w-6 h-6 hidden dark:block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                    <svg id="moon-icon" class="w-6 h-6 block dark:hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Game Title -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-primary-700 dark:text-primary-400 mb-2">Memory Cards</h1>
+            <p class="text-gray-600 dark:text-gray-300">Test your memory by matching pairs of cards. Find all matches as quickly as possible!</p>
+        </div>
+
+        <!-- Game Controls -->
+        <div class="flex flex-col sm:flex-row justify-between mb-6">
+            <div class="mb-4 sm:mb-0">
+                <p class="text-gray-700 dark:text-gray-300">Moves: <span id="moves" class="font-bold">0</span></p>
+                <p class="text-gray-700 dark:text-gray-300">Time: <span id="timer" class="font-bold">00:00</span></p>
+                <p class="text-gray-700 dark:text-gray-300">Best Time: <span id="bestTime" class="font-bold">--:--</span></p>
+            </div>
+            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+                <div>
+                    <select id="difficulty" class="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md px-2 py-1 text-gray-700 dark:text-gray-300">
+                        <option value="easy">Easy (4x3)</option>
+                        <option value="medium">Medium (4x4)</option>
+                        <option value="hard">Hard (6x4)</option>
+                    </select>
+                </div>
+                <button id="instructionsBtn" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+                    How to Play
+                </button>
+                <button id="resetBtn" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
+                    New Game
+                </button>
+            </div>
+        </div>
+
+        <!-- Instructions Modal (hidden by default) -->
+        <div id="instructionsModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-md w-full">
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">How to Play</h2>
+                <div class="mb-6">
+                    <ul class="list-disc list-inside text-gray-600 dark:text-gray-400 space-y-2">
+                        <li>Click on cards to reveal their symbols</li>
+                        <li>Remember the positions and try to match pairs</li>
+                        <li>You can only have two cards flipped at a time</li>
+                        <li>The game ends when all pairs are matched</li>
+                        <li>Try to finish in as few moves and as little time as possible</li>
+                    </ul>
+                    
+                    <h3 class="font-bold text-gray-700 dark:text-gray-300 mt-4 mb-2">Difficulty Levels:</h3>
+                    <p class="text-gray-600 dark:text-gray-400"><strong>Easy:</strong> 12 cards (6 pairs)</p>
+                    <p class="text-gray-600 dark:text-gray-400"><strong>Medium:</strong> 16 cards (8 pairs)</p>
+                    <p class="text-gray-600 dark:text-gray-400"><strong>Hard:</strong> 24 cards (12 pairs)</p>
+                </div>
+                <button id="closeInstructions" class="w-full px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+                    Got it!
+                </button>
+            </div>
+        </div>
+
+        <!-- Game Board -->
+        <div class="flex justify-center mb-8">
+            <div id="game-board" class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-lg grid grid-cols-4 gap-2 sm:gap-3">
+                <!-- Cards will be dynamically inserted here -->
+            </div>
+        </div>
+
+        <!-- Victory Modal (hidden by default) -->
+        <div id="victoryModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-md w-full text-center">
+                <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">Congratulations!</h2>
+                <p class="text-gray-600 dark:text-gray-400 mb-1">You completed the game in:</p>
+                <p class="text-xl font-bold text-primary-600 dark:text-primary-400 mb-2" id="finalTime">00:00</p>
+                <p class="text-gray-600 dark:text-gray-400 mb-1">Total moves:</p>
+                <p class="text-xl font-bold text-primary-600 dark:text-primary-400 mb-4" id="finalMoves">0</p>
+                <button id="playAgainBtn" class="w-full px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+                    Play Again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./memory.js"></script>
+</body>
+</html>

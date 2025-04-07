@@ -1,0 +1,41 @@
+/* Additional custom styles for OwGames */
+
+/* Custom animations */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 20px 5px rgba(139, 92, 246, 0.6);
+  }
+}
+
+/* Game card hover effects */
+.game-card:hover {
+  animation: pulse-glow 2s infinite;
+}
+
+/* Touch device optimizations */
+@media (hover: none) {
+  .game-card {
+    /* Subtle indication on touch devices */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+}
+
+/* Smooth transitions for all elements */
+* {
+  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Mobile-first optimizations */
+@media (max-width: 640px) {
+  header h1 {
+    font-size: 2.5rem;
+  }
+  header p {
+    font-size: 1.125rem;
+  }
+}
