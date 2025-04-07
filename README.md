@@ -27,19 +27,15 @@ A mobile-first, responsive web game hub featuring a collection of fun, lightweig
 - Timer and move counter
 - Best time tracking for each difficulty
 
-## 📸 Screenshots
+### 🎲 2048
+- Slide and combine tiles to reach 2048
+- Arrow key and swipe controls for mobile
+- Score tracking and best score persistence
 
-### Home Page
-![OwGames Home Page](screenshots/home.png)
-
-### Snake Game
-![Snake Game](screenshots/snake.png)
-
-### Tic-Tac-Toe Game
-![Tic-Tac-Toe Game](screenshots/tictactoe.png)
-
-### Memory Cards Game
-![Memory Cards Game](screenshots/memory.png)
+### ✂️ Rock Paper Scissors
+- Classic game of chance against the computer
+- Win tracking and statistics
+- Animated hand gestures
 
 ## 🚀 Demo
 
