@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2048 - OwGames</title>
+    <title>Color Match - OwGames</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕹️</text></svg>">
     <script>
@@ -54,8 +54,8 @@
 
         <!-- Game Title -->
         <div class="text-center mb-8">
-            <h1 class="text-4xl md:text-5xl font-bold text-primary-700 dark:text-primary-400 mb-2">2048</h1>
-            <p class="text-gray-600 dark:text-gray-300">Combine tiles and reach 2048! Use arrow keys or swipe to move tiles.</p>
+            <h1 class="text-4xl md:text-5xl font-bold text-primary-700 dark:text-primary-400 mb-2">Color Match</h1>
+            <p class="text-gray-600 dark:text-gray-300">Test your reaction time! Tap when the colors match.</p>
         </div>
 
         <!-- Game Controls and Info -->
@@ -81,15 +81,15 @@
                 <div class="mb-6">
                     <h3 class="font-bold text-gray-700 dark:text-gray-300 mb-2">Rules:</h3>
                     <ul class="list-disc list-inside text-gray-600 dark:text-gray-400 space-y-2">
-                        <li>Swipe or use arrow keys to move all tiles</li>
-                        <li>Tiles with the same number merge into one when they touch</li>
-                        <li>Add them up to reach 2048!</li>
-                        <li>The game ends when the board is full and no more moves are possible</li>
+                        <li>A circle with changing colors will appear at the top</li>
+                        <li>A square with changing colors will appear at the bottom</li>
+                        <li>Tap the center button when their colors match</li>
+                        <li>Be quick! You only have a limited time for each match</li>
+                        <li>3 misses or wrong taps and the game is over</li>
                     </ul>
                     
-                    <h3 class="font-bold text-gray-700 dark:text-gray-300 mt-4 mb-2">Controls:</h3>
-                    <p class="text-gray-600 dark:text-gray-400"><strong>Desktop:</strong> Use arrow keys (up, down, left, right)</p>
-                    <p class="text-gray-600 dark:text-gray-400"><strong>Mobile:</strong> Swipe in the direction you want the tiles to move</p>
+                    <h3 class="font-bold text-gray-700 dark:text-gray-300 mt-4 mb-2">Tips:</h3>
+                    <p class="text-gray-600 dark:text-gray-400">The game gets faster as your score increases!</p>
                 </div>
                 <button id="closeInstructions" class="w-full px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
                     Got it!
@@ -98,43 +98,61 @@
         </div>
 
         <!-- Game Board -->
-        <div class="flex justify-center mb-8">
-            <div class="game-container bg-white dark:bg-gray-800 p-4 rounded-xl shadow-lg">
-                <div id="game-board" class="grid grid-cols-4 gap-2 game-grid">
-                    <!-- Tiles will be inserted here dynamically -->
+        <div class="flex flex-col items-center justify-between mb-8">
+            <div class="game-container relative bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                <!-- Target Color -->
+                <div id="target-color" class="w-32 h-32 rounded-full mx-auto my-6 shadow-lg"></div>
+                
+                <!-- Time Bar -->
+                <div class="time-bar-container relative w-full h-4 bg-gray-200 dark:bg-gray-700 my-6">
+                    <div id="time-bar" class="absolute left-0 top-0 h-full bg-green-500 transition-all duration-100"></div>
+                </div>
+                
+                <!-- Action Button -->
+                <div class="flex justify-center my-6">
+                    <button id="match-btn" class="w-40 h-40 rounded-full bg-primary-600 hover:bg-primary-700 text-white text-xl font-bold shadow-lg transition-transform transform hover:scale-105 active:scale-95">
+                        MATCH!
+                    </button>
+                </div>
+                
+                <!-- Current Color -->
+                <div id="current-color" class="w-32 h-32 rounded-lg mx-auto my-6 shadow-lg"></div>
+                
+                <!-- Lives Display -->
+                <div class="lives-container flex justify-center space-x-2 my-4">
+                    <div class="life bg-red-500 w-6 h-6 rounded-full"></div>
+                    <div class="life bg-red-500 w-6 h-6 rounded-full"></div>
+                    <div class="life bg-red-500 w-6 h-6 rounded-full"></div>
+                </div>
+                
+                <!-- Start Screen -->
+                <div id="start-screen" class="absolute inset-0 flex flex-col items-center justify-center bg-white bg-opacity-90 dark:bg-gray-800 dark:bg-opacity-90 text-center p-6 z-10">
+                    <h2 class="text-2xl font-bold text-primary-700 dark:text-primary-400 mb-4">Ready to Play?</h2>
+                    <p class="text-gray-600 dark:text-gray-300 mb-6">Tap when the colors match!</p>
+                    <button id="startBtn" class="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-lg font-medium">
+                        Start Game
+                    </button>
+                </div>
+                
+                <!-- Game Over Screen -->
+                <div id="game-over" class="absolute inset-0 flex flex-col items-center justify-center bg-white bg-opacity-90 dark:bg-gray-800 dark:bg-opacity-90 text-center p-6 z-10 hidden">
+                    <h2 class="text-2xl font-bold text-red-600 dark:text-red-400 mb-2">Game Over!</h2>
+                    <p class="text-gray-600 dark:text-gray-300 mb-2">Your score: <span id="finalScore" class="font-bold">0</span></p>
+                    <p class="text-gray-600 dark:text-gray-300 mb-2">Best score: <span id="finalBestScore" class="font-bold">0</span></p>
+                    <p id="reaction-time" class="text-gray-600 dark:text-gray-300 mb-6">Average reaction time: <span class="font-bold">0</span>ms</p>
+                    <button id="playAgainBtn" class="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-lg font-medium">
+                        Play Again
+                    </button>
                 </div>
             </div>
         </div>
 
-        <!-- Game Over Modal (hidden by default) -->
-        <div id="gameOverModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-md w-full text-center">
-                <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">Game Over!</h2>
-                <p class="text-gray-600 dark:text-gray-400 mb-4">Your score: <span id="finalScore" class="font-bold">0</span></p>
-                <button id="playAgainBtn" class="w-full px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
-                    Play Again
-                </button>
-            </div>
-        </div>
-
-        <!-- Win Modal (hidden by default) -->
-        <div id="winModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-md w-full text-center">
-                <h2 class="text-2xl font-bold text-primary-600 dark:text-primary-400 mb-2">You Win!</h2>
-                <p class="text-gray-600 dark:text-gray-400 mb-4">Congratulations! You reached 2048!</p>
-                <p class="text-gray-600 dark:text-gray-400 mb-4">Your score: <span id="winScore" class="font-bold">0</span></p>
-                <div class="flex space-x-2">
-                    <button id="keepPlayingBtn" class="w-1/2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
-                        Keep Playing
-                    </button>
-                    <button id="newGameBtn" class="w-1/2 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors">
-                        New Game
-                    </button>
-                </div>
-            </div>
+        <!-- Game Tips -->
+        <div class="text-center mb-8">
+            <p class="text-gray-600 dark:text-gray-400 italic">Tip: Focus on one color at a time for better results!</p>
         </div>
     </div>
 
-    <script src="./2048.js"></script>
+    <script src="./colormatch.js"></script>
 </body>
 </html>

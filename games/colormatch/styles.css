@@ -1,0 +1,116 @@
+/* Color Match Custom Styles */
+
+/* Game container */
+.game-container {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  padding: 20px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Color displays */
+#target-color, #current-color {
+  transition: background-color 0.5s ease;
+}
+
+/* Time bar animation */
+#time-bar {
+  transition: width 0.1s linear;
+}
+
+/* Button animations */
+#match-btn {
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#match-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.7);
+}
+
+/* Lives display */
+.life {
+  transition: opacity 0.3s ease;
+}
+
+.life.lost {
+  opacity: 0.3;
+}
+
+/* Pulse animation for losing a life */
+@keyframes pulseRed {
+  0% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.5); filter: brightness(2); color: #FF5252; }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+.pulse-red {
+  animation: pulseRed 0.5s ease;
+}
+
+/* Start and game over screens */
+#start-screen, #game-over {
+  transition: opacity 0.3s ease;
+}
+
+/* Animation for score */
+@keyframes scoreUp {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); color: #10b981; }
+  100% { transform: scale(1); }
+}
+
+.score-up {
+  animation: scoreUp 0.3s ease-in-out;
+}
+
+/* Animation for wrong answer */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Animation for correct answer */
+@keyframes pulse {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.pulse {
+  animation: pulse 0.5s ease-in-out;
+}
+
+/* Responsive styles */
+@media (max-width: 640px) {
+  #target-color, #current-color {
+    width: 100px;
+    height: 100px;
+  }
+  
+  #match-btn {
+    width: 120px;
+    height: 120px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  #target-color, #current-color {
+    width: 80px;
+    height: 80px;
+  }
+  
+  #match-btn {
+    width: 100px;
+    height: 100px;
+  }
+}

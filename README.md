@@ -37,6 +37,18 @@ A mobile-first, responsive web game hub featuring a collection of fun, lightweig
 - Win tracking and statistics
 - Animated hand gestures
 
+### 🔨 Whack-a-Mole
+- Test your reflexes by whacking moles
+- Special mole types for bonus points
+- Time-based gameplay with lives system
+- Mobile-optimized touch controls
+
+### 🎨 Color Match
+- Match colors when they appear identical
+- Reaction time tracking and scoring
+- Increasing difficulty as you progress
+- Lives system with visual feedback
+
 ## 🚀 Demo
 
 Play the games live at: [https://owpor.github.io/OwGames](https://owpor.github.io/OwGames)
