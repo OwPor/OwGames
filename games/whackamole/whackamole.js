@@ -147,7 +147,7 @@ class WhackAMoleGame {
         const hideDelay = staySecs * 1000 / this.gameSpeedMultiplier;
         setTimeout(() => {
             if (this.isRunning && this.activeMoles.has(mole)) {
-                mole.classList.remove('active', 'golden', 'bomb');
+                mole.classList.remove('active');
                 this.activeMoles.delete(mole);
             }
         }, hideDelay);
