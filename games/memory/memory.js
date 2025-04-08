@@ -42,6 +42,7 @@ const symbols = [
 // Initialize the game
 function initializeGame() {
     clearInterval(timerInterval);
+
     moves = 0;
     matchedPairs = 0;
     elapsedTime = 0;
@@ -139,34 +140,49 @@ function formatTime(milliseconds) {
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
 
+function handleCardMatch(card1, card2) {
+    // Wait for the flip animation to complete before applying the green outline
+    setTimeout(() => {
+        card1.classList.add('matched');
+        card2.classList.add('matched');
+        matchedPairs++; // Increment matched pairs count
+
+        // Check if all pairs are matched
+        if (matchedPairs === totalPairs) {
+            endGame(); // Call endGame when all pairs are matched
+        }
+    }, 300); // Adjust the delay to match your flip animation duration
+}
+
 // Flip card
-function flipCard() {
-    // Start timer on first card flip
-    if (moves === 0) {
+function flipCard(event) {
+    const card = event.currentTarget; // Use event.currentTarget to get the clicked card
+
+    if (card.classList.contains('flipped') || card.classList.contains('matched') || lockBoard) return;
+
+    // Start the timer on the first flip
+    if (moves === 0 && matchedPairs === 0) {
         startTimer();
     }
-    
-    // Return if board is locked or same card is clicked twice
-    if (lockBoard) return;
-    if (this === firstCard) return;
-    
-    // Flip the card
-    this.classList.add('flipped');
-    
-    // First card flipped
-    if (!hasFlippedCard) {
-        hasFlippedCard = true;
-        firstCard = this;
-        return;
+
+    card.classList.add('flipped');
+    moves++; // Increment moves
+    movesDisplay.textContent = moves; // Update moves display
+
+    // Check for a match
+    const flippedCards = document.querySelectorAll('.flipped:not(.matched)');
+    if (flippedCards.length === 2) {
+        const [card1, card2] = flippedCards;
+
+        if (card1.dataset.symbol === card2.dataset.symbol) {
+            handleCardMatch(card1, card2);
+        } else {
+            // Reset flipped cards after a delay
+            setTimeout(() => {
+                flippedCards.forEach(card => card.classList.remove('flipped'));
+            }, 1000);
+        }
     }
-    
-    // Second card flipped
-    secondCard = this;
-    moves++;
-    movesDisplay.textContent = moves;
-    
-    // Check for match
-    checkForMatch();
 }
 
 // Check if cards match
@@ -237,10 +253,11 @@ function endGame() {
     finalMovesDisplay.textContent = moves;
     
     // Check for best time
-    if (!bestTimes[difficulty] || elapsedTime < parseInt(bestTimes[difficulty])) {
-        bestTimes[difficulty] = elapsedTime.toString();
-        localStorage.setItem(`memory_bestTime_${difficulty}`, elapsedTime);
-        bestTimeDisplay.textContent = formatTime(elapsedTime);
+    const currentBestTime = bestTimes[difficulty] ? parseInt(bestTimes[difficulty]) : Infinity;
+    if (elapsedTime < currentBestTime) {
+        bestTimes[difficulty] = elapsedTime;
+        localStorage.setItem(`memory_bestTime_${difficulty}`, elapsedTime.toString());
+        bestTimeDisplay.textContent = formatTime(elapsedTime); // Update best time display
     }
     
     // Show victory modal
